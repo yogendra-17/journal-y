@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { JournalEntry } from '@/data/entries';
 import CategoryBadge from './CategoryBadge';
 import { Calendar } from 'lucide-react';
@@ -8,6 +9,7 @@ interface EntryCardProps {
 }
 
 const EntryCard = ({ entry, index }: EntryCardProps) => {
+  const navigate = useNavigate();
   const formattedDate = new Date(entry.date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -16,7 +18,8 @@ const EntryCard = ({ entry, index }: EntryCardProps) => {
 
   return (
     <article 
-      className="group p-6 bg-card border border-border/50 rounded-sm shadow-paper hover:shadow-elevated transition-all duration-300 animate-fade-in"
+      onClick={() => navigate(`/entry/${entry.id}`)}
+      className="group p-6 bg-card border border-border/50 rounded-sm shadow-paper hover:shadow-elevated transition-all duration-300 animate-fade-in cursor-pointer"
       style={{ animationDelay: `${index * 100}ms` }}
     >
       <div className="space-y-4">

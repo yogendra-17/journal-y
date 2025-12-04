@@ -17,9 +17,6 @@ const EntriesSection = () => {
       <div className="container max-w-4xl mx-auto px-6">
         <div className="space-y-8">
           <div className="space-y-4">
-            <h2 className="font-serif text-2xl md:text-3xl font-bold">
-              Recent Entries
-            </h2>
             <p className="text-muted-foreground">
               Collected thoughts, solutions, and explorations from the ongoing journey.
             </p>
