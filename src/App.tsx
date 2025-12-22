@@ -14,7 +14,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/journal-y">
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/entry/:id" element={<EntryDetail />} />

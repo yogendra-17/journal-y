@@ -31,6 +31,7 @@ const renderInlineMarkdown = (text: string) => {
 
 const isCodeBlock = (text: string) => text.startsWith('```');
 const isTable = (text: string) => text.trim().startsWith('|');
+const isImage = (text: string) => text.trim().startsWith('![');
 
 const EntryDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -179,9 +180,8 @@ const EntryDetail = () => {
                                   .map((cell, cellIdx) => (
                                     <td
                                       key={`td-${idx}-${cellIdx}`}
-                                      className={`px-4 py-2 ${
-                                        idx === 0 ? 'font-bold text-primary' : ''
-                                      }`}
+                                      className={`px-4 py-2 ${idx === 0 ? 'font-bold text-primary' : ''
+                                        }`}
                                     >
                                       {cell.trim()}
                                     </td>
@@ -192,6 +192,35 @@ const EntryDetail = () => {
                         </table>
                       </div>
                     );
+                  } else if (isImage(line)) {
+                    const imgRegex = /!\[(.*?)\]\((.*?)\)/;
+                    const match = line.match(imgRegex);
+                    if (match) {
+                      const [, alt, url] = match;
+                      elements.push(
+                        <div key={`img-${i}`} className="my-8 space-y-2">
+                          <div className="overflow-hidden rounded-lg border border-border/30 bg-secondary/20">
+                            <img
+                              src={url}
+                              alt={alt}
+                              className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.02]"
+                            />
+                          </div>
+                          {alt && (
+                            <p className="text-center text-sm text-muted-foreground italic">
+                              {alt}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    } else {
+                      // Fallback to normal paragraph if regex fails
+                      elements.push(
+                        <p key={`p-${i}`} className="my-2 text-foreground/90">
+                          {renderInlineMarkdown(line)}
+                        </p>
+                      );
+                    }
                   } else if (line.trim() !== '') {
                     elements.push(
                       <p key={`p-${i}`} className="my-2 text-foreground/90">
