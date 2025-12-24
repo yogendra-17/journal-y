@@ -4,34 +4,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CategoryBadge from '@/components/CategoryBadge';
 import { Calendar, ArrowLeft } from 'lucide-react';
-
-const renderInlineMarkdown = (text: string) => {
-  const parts: (string | JSX.Element)[] = [];
-  let lastIndex = 0;
-
-  // Handle **bold**
-  const boldRegex = /\*\*([^*]+)\*\*/g;
-  let match;
-  while ((match = boldRegex.exec(text)) !== null) {
-    parts.push(text.slice(lastIndex, match.index));
-    parts.push(
-      <strong key={`bold-${lastIndex}`} className="font-bold text-foreground">
-        {match[1]}
-      </strong>
-    );
-    lastIndex = boldRegex.lastIndex;
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
-
-  return parts.length > 0 ? parts : text;
-};
-
-const isCodeBlock = (text: string) => text.startsWith('```');
-const isTable = (text: string) => text.trim().startsWith('|');
-const isImage = (text: string) => text.trim().startsWith('![');
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const EntryDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -109,131 +83,60 @@ const EntryDetail = () => {
               </div>
             </div>
 
-            <div className="border-t border-border/30 pt-8 space-y-4 text-base leading-relaxed text-foreground">
-              {(() => {
-                const lines = entry.content.split('\n');
-                const elements: JSX.Element[] = [];
-                let codeBlock = false;
-                let codeContent = '';
-                let i = 0;
-
-                while (i < lines.length) {
-                  const line = lines[i];
-
-                  if (isCodeBlock(line)) {
-                    if (!codeBlock) {
-                      codeBlock = true;
-                      codeContent = '';
-                    } else {
-                      elements.push(
-                        <pre key={`code-${i}`} className="bg-secondary/50 border border-border/30 rounded p-4 overflow-x-auto my-4">
-                          <code className="text-sm text-foreground/90">{codeContent.trim()}</code>
+            <div className="border-t border-border/30 pt-8 text-base leading-relaxed text-foreground">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  h1: ({ node, ...props }) => <h1 className="font-serif text-3xl font-bold mt-8 mb-4" {...props} />,
+                  h2: ({ node, ...props }) => <h2 className="font-serif text-2xl font-bold mt-8 mb-4" {...props} />,
+                  h3: ({ node, ...props }) => <h3 className="font-serif text-xl font-semibold mt-6 mb-3" {...props} />,
+                  p: ({ node, ...props }) => <p className="text-foreground/90 leading-7 my-4 last:mb-0" {...props} />,
+                  ul: ({ node, ...props }) => <ul className="list-disc list-outside ml-6 my-4 space-y-2 text-foreground/90" {...props} />,
+                  ol: ({ node, ...props }) => <ol className="list-decimal list-outside ml-6 my-4 space-y-2 text-foreground/90" {...props} />,
+                  li: ({ node, children, ...props }) => (
+                    <li className="pl-1" {...props}>
+                      {/* Handle paragraph wrapper removal if needed, but css list-outside helps */}
+                      {children}
+                    </li>
+                  ),
+                  blockquote: ({ node, ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 italic my-6 text-muted-foreground" {...props} />,
+                  code: ({ node, inline, className, children, ...props }: any) => {
+                    return !inline ? (
+                      <div className="relative my-6 rounded-lg overflow-hidden border border-border/40 shadow-sm">
+                        <pre className="bg-secondary/40 p-4 overflow-x-auto">
+                          <code className={`text-sm font-mono leading-relaxed ${className || ''}`} {...props}>
+                            {children}
+                          </code>
                         </pre>
-                      );
-                      codeBlock = false;
-                    }
-                    i++;
-                    continue;
-                  }
-
-                  if (codeBlock) {
-                    codeContent += line + '\n';
-                    i++;
-                    continue;
-                  }
-
-                  if (line.startsWith('## ')) {
-                    elements.push(
-                      <h2 key={`h2-${i}`} className="font-serif text-2xl font-bold mt-8 mb-4">
-                        {line.slice(3)}
-                      </h2>
-                    );
-                  } else if (line.startsWith('### ')) {
-                    elements.push(
-                      <h3 key={`h3-${i}`} className="font-serif text-xl font-semibold mt-6 mb-3">
-                        {line.slice(4)}
-                      </h3>
-                    );
-                  } else if (line.startsWith('━')) {
-                    elements.push(
-                      <div key={`divider-${i}`} className="my-6">
-                        <div className="border-b border-border/20"></div>
                       </div>
+                    ) : (
+                      <code className="bg-secondary/50 px-1.5 py-0.5 rounded text-sm font-mono text-primary border border-border/20" {...props}>
+                        {children}
+                      </code>
                     );
-                  } else if (isTable(line)) {
-                    const tableLines = [];
-                    while (i < lines.length && isTable(lines[i])) {
-                      tableLines.push(lines[i]);
-                      i++;
-                    }
-                    i--;
-
-                    elements.push(
-                      <div key={`table-${i}`} className="overflow-x-auto my-4">
-                        <table className="w-full text-sm border-collapse">
-                          <tbody>
-                            {tableLines.map((tableLine, idx) => (
-                              <tr key={`tr-${idx}`} className="border-b border-border/30">
-                                {tableLine
-                                  .split('|')
-                                  .filter(cell => cell.trim())
-                                  .map((cell, cellIdx) => (
-                                    <td
-                                      key={`td-${idx}-${cellIdx}`}
-                                      className={`px-4 py-2 ${idx === 0 ? 'font-bold text-primary' : ''
-                                        }`}
-                                    >
-                                      {cell.trim()}
-                                    </td>
-                                  ))}
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                  },
+                  table: ({ node, ...props }) => <div className="overflow-x-auto my-6 rounded-lg border border-border/30"><table className="w-full text-sm border-collapse" {...props} /></div>,
+                  thead: ({ node, ...props }) => <thead className="bg-secondary/30" {...props} />,
+                  tbody: ({ node, ...props }) => <tbody {...props} />,
+                  tr: ({ node, ...props }) => <tr className="border-b border-border/30 last:border-0 hover:bg-secondary/10 transition-colors" {...props} />,
+                  th: ({ node, ...props }) => <th className="px-4 py-3 text-left font-bold text-foreground/80" {...props} />,
+                  td: ({ node, ...props }) => <td className="px-4 py-3 text-foreground/70" {...props} />,
+                  img: ({ node, ...props }) => (
+                    <div className="my-8 space-y-2">
+                      <div className="overflow-hidden rounded-lg border border-border/30 bg-secondary/20 shadow-sm">
+                        <img className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.01]" {...props} />
                       </div>
-                    );
-                  } else if (isImage(line)) {
-                    const imgRegex = /!\[(.*?)\]\((.*?)\)/;
-                    const match = line.match(imgRegex);
-                    if (match) {
-                      const [, alt, url] = match;
-                      elements.push(
-                        <div key={`img-${i}`} className="my-8 space-y-2">
-                          <div className="overflow-hidden rounded-lg border border-border/30 bg-secondary/20">
-                            <img
-                              src={url}
-                              alt={alt}
-                              className="w-full h-auto object-cover transition-transform duration-500 hover:scale-[1.02]"
-                            />
-                          </div>
-                          {alt && (
-                            <p className="text-center text-sm text-muted-foreground italic">
-                              {alt}
-                            </p>
-                          )}
-                        </div>
-                      );
-                    } else {
-                      // Fallback to normal paragraph if regex fails
-                      elements.push(
-                        <p key={`p-${i}`} className="my-2 text-foreground/90">
-                          {renderInlineMarkdown(line)}
-                        </p>
-                      );
-                    }
-                  } else if (line.trim() !== '') {
-                    elements.push(
-                      <p key={`p-${i}`} className="my-2 text-foreground/90">
-                        {renderInlineMarkdown(line)}
-                      </p>
-                    );
-                  }
-
-                  i++;
-                }
-
-                return elements;
-              })()}
+                      {props.alt && (
+                        <p className="text-center text-sm text-muted-foreground italic">{props.alt}</p>
+                      )}
+                    </div>
+                  ),
+                  hr: ({ node, ...props }) => <hr className="my-8 border-border/20" {...props} />,
+                  strong: ({ node, ...props }) => <strong className="font-bold text-foreground" {...props} />,
+                }}
+              >
+                {entry.content}
+              </ReactMarkdown>
             </div>
           </article>
         </div>
