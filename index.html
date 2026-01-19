@@ -1,18 +1,45 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scholar's Notebook</title>
-    <meta name="description" content="Collected thoughts, solutions, and explorations from the ongoing journey." />
-    <meta name="author" content="Yogendra" />
-    <meta name="keywords" content="leetcode, blockchain, system design, programming, learning, api, rest, grpc" />
-    
-    <link rel="canonical" href="/" />
-  </head>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scholar's Notebook</title>
+  <meta name="description" content="Collected thoughts, solutions, and explorations from the ongoing journey." />
+  <meta name="author" content="Yogendra" />
+  <meta name="keywords" content="leetcode, blockchain, system design, programming, learning, api, rest, grpc" />
+
+  <link rel="canonical" href="/" />
+
+  <!-- GitHub Pages SPA redirect handler -->
+  <script>
+    // This script restores the URL that was encoded by 404.html
+    // It runs before React Router initializes, so the correct route will be active
+    (function () {
+      const redirect = sessionStorage.getItem('redirect');
+      sessionStorage.removeItem('redirect');
+
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+
+      // Also handle the query parameter format from 404.html
+      const query = window.location.search;
+      if (query && query.indexOf('?/') === 0) {
+        const path = query.slice(2).split('&')[0];
+        if (path) {
+          window.history.replaceState(null, null,
+            window.location.pathname + '#/' + path + window.location.hash.slice(1)
+          );
+        }
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
