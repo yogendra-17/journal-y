@@ -7,10 +7,11 @@ const categories: (Category | 'all')[] = ['all', 'leetcode', 'blockchain', 'syst
 
 const EntriesSection = () => {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
-  
-  const filteredEntries = activeCategory === 'all' 
-    ? entries 
-    : entries.filter(entry => entry.category === activeCategory);
+
+  const filteredEntries = (activeCategory === 'all'
+    ? entries
+    : entries.filter(entry => entry.category === activeCategory))
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
     <section id="entries" className="py-16 md:py-20">
@@ -21,7 +22,7 @@ const EntriesSection = () => {
               Collected thoughts, solutions, and explorations from the ongoing journey.
             </p>
           </div>
-          
+
           {/* Category Filter */}
           <div className="flex flex-wrap gap-2 border-b border-border pb-4">
             {categories.map((category) => (
@@ -39,14 +40,14 @@ const EntriesSection = () => {
               </button>
             ))}
           </div>
-          
+
           {/* Entries Grid */}
           <div className="grid gap-6">
             {filteredEntries.map((entry, index) => (
               <EntryCard key={entry.id} entry={entry} index={index} />
             ))}
           </div>
-          
+
           {filteredEntries.length === 0 && (
             <p className="text-center text-muted-foreground py-12 italic">
               No entries in this category yet. The journey continues...
