@@ -8,6 +8,7 @@ interface EntryCardProps {
   index: number;
 }
 
+
 const EntryCard = ({ entry, index }: EntryCardProps) => {
   const navigate = useNavigate();
   const formattedDate = new Date(entry.date).toLocaleDateString('en-US', {
