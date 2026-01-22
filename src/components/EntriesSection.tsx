@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { entries, categoryLabels, type Category } from '@/data/entries';
+import { useState, useEffect } from 'react';
+import { categoryLabels, type Category } from '@/data/entries';
+import { getAllEntriesMetadata, type EntryMetadata } from '@/utils/entryLoader';
 import EntryCard from './EntryCard';
 import { cn } from '@/lib/utils';
 
@@ -7,6 +8,27 @@ const categories: (Category | 'all')[] = ['all', 'leetcode', 'blockchain', 'syst
 
 const EntriesSection = () => {
   const [activeCategory, setActiveCategory] = useState<Category | 'all'>('all');
+  const [entries, setEntries] = useState<EntryMetadata[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadEntries = async () => {
+      try {
+        setLoading(true);
+        const allEntries = await getAllEntriesMetadata();
+        setEntries(allEntries);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load entries:', err);
+        setError('Failed to load entries. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEntries();
+  }, []);
 
   const filteredEntries = (activeCategory === 'all'
     ? entries
@@ -41,14 +63,30 @@ const EntriesSection = () => {
             ))}
           </div>
 
-          {/* Entries Grid */}
-          <div className="grid gap-6">
-            {filteredEntries.map((entry, index) => (
-              <EntryCard key={entry.id} entry={entry} index={index} />
-            ))}
-          </div>
+          {/* Loading State */}
+          {loading && (
+            <p className="text-center text-muted-foreground py-12">
+              Loading entries...
+            </p>
+          )}
 
-          {filteredEntries.length === 0 && (
+          {/* Error State */}
+          {error && (
+            <p className="text-center text-destructive py-12">
+              {error}
+            </p>
+          )}
+
+          {/* Entries Grid */}
+          {!loading && !error && (
+            <div className="grid gap-6">
+              {filteredEntries.map((entry, index) => (
+                <EntryCard key={entry.id} entry={entry} index={index} />
+              ))}
+            </div>
+          )}
+
+          {!loading && !error && filteredEntries.length === 0 && (
             <p className="text-center text-muted-foreground py-12 italic">
               No entries in this category yet. The journey continues...
             </p>

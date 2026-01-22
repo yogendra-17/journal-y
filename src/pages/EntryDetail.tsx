@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { entries } from '@/data/entries';
+import { loadEntryBySlug } from '@/utils/entryLoader';
+import { JournalEntry } from '@/data/entries';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CategoryBadge from '@/components/CategoryBadge';
@@ -8,11 +10,55 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 const EntryDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const entry = entries.find(e => e.id === id);
+  const [entry, setEntry] = useState<JournalEntry | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!entry) {
+  useEffect(() => {
+    const loadEntry = async () => {
+      if (!slug) {
+        setError('No entry specified');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const loadedEntry = await loadEntryBySlug(slug);
+        if (loadedEntry) {
+          setEntry(loadedEntry);
+          setError(null);
+        } else {
+          setError('Entry not found');
+        }
+      } catch (err) {
+        console.error('Failed to load entry:', err);
+        setError('Failed to load entry');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadEntry();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="py-16">
+          <div className="container max-w-4xl mx-auto px-6 text-center">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !entry) {
     return (
       <div className="min-h-screen bg-background">
         <Header />
@@ -21,7 +67,7 @@ const EntryDetail = () => {
             <h1 className="text-2xl font-serif font-bold mb-4">Entry not found</h1>
             <button
               onClick={() => navigate('/')}
-              className="text-primary hover:text-primary/80 transition-colors flex items-center gap-2 justify-center"
+              className="text-primary hover:text-primary/80 transition-colors flex items-center gap-2 justify-center mx-auto"
             >
               <ArrowLeft className="w-4 h-4" />
               Back to entries

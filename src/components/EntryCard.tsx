@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { JournalEntry } from '@/data/entries';
+import { EntryMetadata } from '@/utils/entryLoader';
 import CategoryBadge from './CategoryBadge';
 import { Calendar } from 'lucide-react';
 
 interface EntryCardProps {
-  entry: JournalEntry;
+  entry: EntryMetadata;
   index: number;
 }
 
@@ -18,7 +18,7 @@ const EntryCard = ({ entry, index }: EntryCardProps) => {
 
   return (
     <article 
-      onClick={() => navigate(`/entry/${entry.id}`)}
+      onClick={() => navigate(`/entry/${entry.slug}`)}
       className="group p-6 bg-card border border-border/50 rounded-sm shadow-paper hover:shadow-elevated transition-all duration-300 animate-fade-in cursor-pointer"
       style={{ animationDelay: `${index * 100}ms` }}
     >
