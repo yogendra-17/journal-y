@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "prebuild": "node scripts/generate-entries-index.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },

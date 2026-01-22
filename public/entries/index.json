@@ -1,0 +1,177 @@
+{
+  "entries": [
+    {
+      "id": "1",
+      "slug": "two-sum-the-gateway-problem",
+      "title": "Two Sum: The Gateway Problem",
+      "excerpt": "Every journey begins somewhere. For most of us in competitive programming, it begins with Two Sum.",
+      "category": "leetcode",
+      "date": "2024-12-01",
+      "tags": [
+        "arrays",
+        "hash-map",
+        "easy"
+      ],
+      "filename": "1-two-sum-the-gateway-problem.md"
+    },
+    {
+      "id": "2",
+      "slug": "understanding-merkle-trees",
+      "title": "Understanding Merkle Trees",
+      "excerpt": "How blockchain achieves efficient verification of data integrity through elegant tree structures.",
+      "category": "blockchain",
+      "date": "2024-11-28",
+      "tags": [
+        "data-structures",
+        "cryptography",
+        "fundamentals"
+      ],
+      "filename": "2-understanding-merkle-trees.md"
+    },
+    {
+      "id": "3",
+      "slug": "designing-a-url-shortener",
+      "title": "Designing a URL Shortener",
+      "excerpt": "A classic system design problem that teaches us about trade-offs, scalability, and distributed systems.",
+      "category": "system-design",
+      "date": "2024-11-25",
+      "tags": [
+        "distributed-systems",
+        "scalability",
+        "databases"
+      ],
+      "filename": "3-designing-a-url-shortener.md"
+    },
+    {
+      "id": "4",
+      "slug": "on-the-art-of-learning",
+      "title": "On the Art of Learning",
+      "excerpt": "Reflections on how I approach new technologies and why deliberate practice matters more than passive consumption.",
+      "category": "thoughts",
+      "date": "2024-11-22",
+      "tags": [
+        "learning",
+        "productivity",
+        "meta"
+      ],
+      "filename": "4-on-the-art-of-learning.md"
+    },
+    {
+      "id": "5",
+      "slug": "the-philosophy-of-clean-code",
+      "title": "The Philosophy of Clean Code",
+      "excerpt": "Why readability matters more than cleverness, and how I'm trying to write code for my future self.",
+      "category": "articles",
+      "date": "2024-11-18",
+      "tags": [
+        "best-practices",
+        "code-quality",
+        "philosophy"
+      ],
+      "filename": "5-the-philosophy-of-clean-code.md"
+    },
+    {
+      "id": "6",
+      "slug": "understanding-apis-from-rest-to-webrtc",
+      "title": "Understanding APIs: From REST to WebRTC",
+      "excerpt": "Notes on different API architectures and when I actually use each one.",
+      "category": "articles",
+      "date": "2025-12-04",
+      "tags": [
+        "api",
+        "rest",
+        "grpc",
+        "graphql",
+        "websockets",
+        "reflection"
+      ],
+      "filename": "6-understanding-apis-from-rest-to-webrtc.md"
+    },
+    {
+      "id": "7",
+      "slug": "the-genesis-block-when-mathematics-first-spoke-back-to-power",
+      "title": "The Genesis Block: When Mathematics First Spoke Back to Power",
+      "excerpt": "The story of how Bitcoin actually began not with a launch, but with a quiet, immutable declaration hidden in the first block ever mined.",
+      "category": "blockchain",
+      "date": "2025-01-03",
+      "tags": [
+        "bitcoin",
+        "blockchain",
+        "history",
+        "cryptography",
+        "satoshi"
+      ],
+      "filename": "7-the-genesis-block-when-mathematics-first-spoke-back-to-power.md"
+    },
+    {
+      "id": "8",
+      "slug": "search-a-2d-matrix-ii",
+      "title": "Search a 2D Matrix II",
+      "excerpt": "Start from the top-right corner and walk the matrix like a staircase.",
+      "category": "leetcode",
+      "date": "2025-12-24",
+      "tags": [
+        "matrix",
+        "binary-search",
+        "medium",
+        "cpp"
+      ],
+      "filename": "8-search-a-2d-matrix-ii.md"
+    },
+    {
+      "id": "9",
+      "slug": "esp32-when-two-cores-change-everything",
+      "title": "ESP32: When Two Cores Change Everything",
+      "excerpt": "How Espressif took a commodity microcontroller architecture and turned it into the backbone of modern IoT by making one critical decision: give it two brains.",
+      "category": "articles",
+      "date": "2026-01-13",
+      "tags": [
+        "esp32",
+        "embedded-systems",
+        "rtos",
+        "freertos",
+        "iot",
+        "microcontrollers",
+        "dual-core"
+      ],
+      "filename": "9-esp32-when-two-cores-change-everything.md"
+    },
+    {
+      "id": "10",
+      "slug": "lcel-when-pipes-became-protocols",
+      "title": "LCEL: When Pipes Became Protocols",
+      "excerpt": "How LangChain turned the Unix pipe operator into a type-safe abstraction for LLM orchestration, and why that matters more than you think.",
+      "category": "articles",
+      "date": "2026-01-13",
+      "tags": [
+        "langchain",
+        "lcel",
+        "functional-programming",
+        "monads",
+        "composition",
+        "llm",
+        "architecture"
+      ],
+      "filename": "10-lcel-when-pipes-became-protocols.md"
+    },
+    {
+      "id": "11",
+      "slug": "streaming-responses-in-ai-when-tokens-flow-like-water",
+      "title": "Streaming Responses in AI: When Tokens Flow Like Water",
+      "excerpt": "How modern LLMs create the illusion of real-time conversation by sending tokens as they're generated, and why that simple trick changes everything about building AI interfaces.",
+      "category": "articles",
+      "date": "2026-01-19",
+      "tags": [
+        "ai",
+        "llm",
+        "streaming",
+        "sse",
+        "architecture",
+        "web-development",
+        "real-time"
+      ],
+      "filename": "11-streaming-responses-in-ai-when-tokens-flow-like-water.md"
+    }
+  ],
+  "lastUpdated": "2026-01-22T11:50:23.657Z"
+}
