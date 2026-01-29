@@ -28,8 +28,11 @@
       if (query && query.indexOf('?/') === 0) {
         const path = query.slice(2).split('&')[0];
         if (path) {
+          // Construct the full path for BrowserRouter (no hash)
+          const newPath = window.location.pathname.replace(/\/+$/, '') + '/' + path;
+          const queryParams = query.split('&').slice(1).join('&');
           window.history.replaceState(null, null,
-            window.location.pathname + '#/' + path + window.location.hash.slice(1)
+            newPath + (queryParams ? '?' + queryParams : '') + window.location.hash
           );
         }
       }
