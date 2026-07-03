@@ -34,21 +34,7 @@
       ],
       "filename": "7-the-genesis-block-when-mathematics-first-spoke-back-to-power.md"
     },
-    {
-      "id": "8",
-      "slug": "search-a-2d-matrix-ii",
-      "title": "Search a 2D Matrix II",
-      "excerpt": "Start from the top-right corner and walk the matrix like a staircase.",
-      "category": "leetcode",
-      "date": "2025-12-24",
-      "tags": [
-        "matrix",
-        "binary-search",
-        "medium",
-        "cpp"
-      ],
-      "filename": "8-search-a-2d-matrix-ii.md"
-    },
+
     {
       "id": "9",
       "slug": "esp32-when-two-cores-change-everything",
