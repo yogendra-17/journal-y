@@ -4,7 +4,7 @@ A personal collection of thoughts, solutions, and explorations from the ongoing 
 
 ---
 
-## 📝 Writing Style Guide
+## Writing Style Guide
 
 ### Your Voice
 
@@ -51,7 +51,7 @@ Not good (formal, tutorial-like):
 
 ---
 
-## 🚀 How to Add/Update an Article
+## How to Add/Update an Article
 
 ### Step 1: Write Your Thoughts
 
@@ -117,7 +117,7 @@ All entries are stored in: `/src/data/entries.ts`
 
 ---
 
-## 📖 Article Categories
+## Article Categories
 
 - **articles** - Long-form explorations, reflections, deep dives
 - **leetcode** - Algorithm problems and solutions
@@ -127,7 +127,7 @@ All entries are stored in: `/src/data/entries.ts`
 
 ---
 
-## 🎨 Markdown Formatting Reference
+## Markdown Formatting Reference
 
 Here's what formatting options are available:
 
@@ -149,7 +149,7 @@ Keep paragraphs short for readability.
 
 ---
 
-## ✨ Tips
+## Tips
 
 1. **Don't overthink it** - Your first draft voice is usually the best
 2. **Use code blocks freely** - They break up text and make things clearer
@@ -159,7 +159,7 @@ Keep paragraphs short for readability.
 
 ---
 
-## 🔧 Development
+## Development
 
 ### Setup
 
