@@ -36,15 +36,9 @@ const EntriesSection = () => {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <section id="entries" className="py-16 md:py-20">
+    <section id="entries" className="py-10 md:py-14">
       <div className="container max-w-4xl mx-auto px-6">
         <div className="space-y-8">
-          <div className="space-y-4">
-            <p className="text-muted-foreground">
-              Collected thoughts, solutions, and explorations from the ongoing journey.
-            </p>
-          </div>
-
           {/* Category Filter */}
           <div className="flex flex-wrap gap-2 border-b border-border pb-4">
             {categories.map((category) => (
@@ -52,7 +46,7 @@ const EntriesSection = () => {
                 key={category}
                 onClick={() => setActiveCategory(category)}
                 className={cn(
-                  'px-3 py-1.5 text-sm rounded-sm transition-all duration-200',
+                  'px-3 py-1.5 text-sm rounded-sm transition-colors duration-150 ease-out active:scale-[0.97]',
                   activeCategory === category
                     ? 'bg-primary text-primary-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
