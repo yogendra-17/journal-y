@@ -21,7 +21,7 @@ const EntryCard = ({ entry, index }: EntryCardProps) => {
   return (
     <article 
       onClick={() => navigate(`/entry/${entry.slug}`)}
-      className="group p-6 bg-card border border-border/50 rounded-sm shadow-paper hover:shadow-elevated transition-all duration-300 animate-fade-in cursor-pointer"
+      className="group p-6 bg-card border border-border/50 rounded-sm shadow-paper hover:shadow-elevated transition-[box-shadow,transform] duration-200 ease-out active:scale-[0.99] animate-fade-in cursor-pointer"
       style={{ animationDelay: `${index * 100}ms` }}
     >
       <div className="space-y-4">
