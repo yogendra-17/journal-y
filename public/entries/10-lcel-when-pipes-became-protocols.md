@@ -16,7 +16,7 @@ chain = prompt | model | parser
 result = chain.invoke({"input": "Hello"})
 ```
 
-That pipe operator—`|`—isn't just syntactic sugar. It's a protocol. A contract. A way of thinking about composition that changes everything.
+That pipe operator, `|`, isn't just syntactic sugar. It's a protocol — a contract for how composition works.
 
 ### The Problem LCEL Solves
 
@@ -34,7 +34,7 @@ def my_chain(input_data):
 
 Simple enough. But now add streaming. Add async. Add batching. Add retries. Add observability. Suddenly you're maintaining infrastructure code instead of building features.
 
-LCEL said: what if composition was the primitive?
+LCEL makes composition itself the primitive.
 
 ### The Runnable Protocol
 
@@ -61,9 +61,9 @@ class Runnable:
         pass
 ```
 
-This is more than an interface. It's a guarantee. Any `Runnable` can be composed with any other `Runnable`. The pipe operator `|` creates a `RunnableSequence`, which is itself a `Runnable`. Composition is closed under the operation.
+That's more than an interface, it's a guarantee: any `Runnable` can be composed with any other `Runnable`. The pipe operator `|` creates a `RunnableSequence`, which is itself a `Runnable` — composition is closed under the operation.
 
-This is where it gets interesting. If you've studied functional programming, you'll recognize this pattern.
+If you've studied functional programming, you'll recognize this pattern.
 
 ### The Monad Hiding in Plain Sight
 
@@ -89,7 +89,7 @@ def pipe(self, other):
     return RunnableSequence(self, other)
 ```
 
-Why does this matter? Because monads give you **composability with effects**. LLM calls have effects: they're async, they can fail, they produce streams of tokens. Monads let you compose these effectful computations while keeping the complexity contained.
+Monads give you composability with effects, and LLM calls are full of effects: they're async, they can fail, they produce streams of tokens. Composing them as a monad keeps that complexity contained instead of scattering it through your code.
 
 In Haskell, you'd write:
 
@@ -103,7 +103,7 @@ In LCEL, you write:
 chain = prompt | model | parser
 ```
 
-Same pattern. Different syntax. The Unix philosophy meets category theory.
+Same pattern, different syntax — the Unix philosophy meets category theory.
 
 ### Functors and Mapping
 
@@ -122,13 +122,13 @@ result = parallel.invoke({"text": "..."})
 # Returns: {"summary": ..., "sentiment": ..., "entities": ...}
 ```
 
-This is `fmap` over a product type. You're mapping multiple functions over the same input and collecting the results. The parallelism is automatic—LCEL detects independent branches and executes them concurrently.
+This is `fmap` over a product type. You're mapping multiple functions over the same input and collecting the results. The parallelism is automatic: LCEL detects independent branches and runs them concurrently.
 
-The insight: **declarative composition enables automatic optimization**. You describe *what* you want, not *how* to execute it. LCEL figures out the execution strategy.
+That's declarative composition: you describe *what* you want, not *how* to execute it, and LCEL figures out the execution strategy on its own.
 
 ### Streaming: The Hard Part
 
-Here's where LCEL really shines. Streaming LLM output is critical for UX—users want to see tokens as they're generated, not wait for the full response. But streaming through a chain is non-trivial.
+Streaming LLM output is critical for UX — users want to see tokens as they're generated, not wait for the full response. But streaming through a chain is non-trivial.
 
 Consider this chain:
 
@@ -158,7 +158,7 @@ This gives you observability into the execution. You see every step, every token
 
 ### The Type System (or Lack Thereof)
 
-Here's the uncomfortable truth: LCEL is dynamically typed. The pipe operator doesn't enforce type compatibility at composition time. You can write:
+LCEL is dynamically typed, and the pipe operator doesn't enforce type compatibility at composition time. You can write:
 
 ```python
 chain = prompt | model | some_random_function
@@ -216,9 +216,9 @@ chain = chain.with_config(max_concurrency=5)
 
 ### What This Enables
 
-The power of LCEL isn't just cleaner code. It's **abstraction without loss of control**.
+LCEL isn't just cleaner code. It's abstraction without losing control over execution.
 
-You can build complex workflows—RAG pipelines, multi-agent systems, conditional routing—using the same composition primitives. The pipe operator scales from simple chains to intricate graphs.
+You can build complex workflows — RAG pipelines, multi-agent systems, conditional routing — using the same composition primitives. The pipe operator scales from simple chains to complex graphs.
 
 Example: conditional routing based on input classification:
 
@@ -250,14 +250,10 @@ LCEL applies this to LLM orchestration:
 
 The pipe operator in Unix connects processes via stdin/stdout. The pipe operator in LCEL connects `Runnables` via typed inputs/outputs. Same concept, different domain.
 
-### The Real Insight
+### Why It Works
 
-LCEL succeeded because it made the right abstraction. Not too high-level (hiding important details), not too low-level (exposing unnecessary complexity). The `Runnable` protocol is the Goldilocks zone.
+LCEL got the abstraction level right: not so high it hides important details, not so low it exposes unnecessary complexity. The `Runnable` protocol sits right in between.
 
-It's also a lesson in API design. The pipe operator is familiar—developers have been using it in shells for decades. But here, it's type-aware, async-capable, and streaming-native. It takes a well-known metaphor and extends it to a new domain.
+It's also a lesson in API design. The pipe operator is familiar — developers have been using it in shells for decades. Here it's type-aware, async-capable, and streaming-native, extending a well-known metaphor into a new domain.
 
-And that's the kind of design that sticks. Not because it's novel, but because it's *obvious in retrospect*. Of course LLM chains should compose like Unix pipes. Of course the abstraction should be a protocol, not a class hierarchy. Of course streaming should be first-class.
-
-LCEL didn't invent these ideas. It just put them together in a way that made building LLM applications feel less like plumbing and more like programming.
-
-And honestly, that's probably the best compliment you can give an abstraction.
+LCEL didn't invent flatMap, functors, or SSE streaming. It just put them together in a way that made building LLM applications feel less like plumbing and more like programming.

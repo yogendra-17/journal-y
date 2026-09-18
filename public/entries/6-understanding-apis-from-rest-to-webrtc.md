@@ -102,7 +102,7 @@ I haven't built anything serious with WebSockets yet. But I get why they're esse
 
 WebRTC is peer-to-peer. Your video call doesn't go through a server - it goes straight from your device to theirs. It handles all the messy networking stuff automatically.
 
-Think about every video call you've made on Zoom or Google Meet. That direct connection? WebRTC.
+Every video call you've made on Zoom or Google Meet uses that direct connection. That's WebRTC.
 
 It's technically complex but damn, it's powerful. No central server bottleneck. Lower latency. More privacy since your data isn't being routed through someone else's infrastructure.
 
@@ -114,4 +114,4 @@ I use REST for 90% of what I build. It's boring, it's predictable, it works. Gra
 
 SOAP? gRPC? WebRTC? They're tools in the toolbox I haven't needed yet. But that's okay. You don't need to master everything. You need to understand when to reach for each one.
 
-REST has served me well. And I think that's the real lesson here - the simplest tool that solves your problem is usually the right choice.
+REST has served me well, and I think that's the lesson: the simplest tool that solves your problem is usually the right choice.
